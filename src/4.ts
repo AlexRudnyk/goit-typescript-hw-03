@@ -18,31 +18,28 @@ class Person {
 }
 
 abstract class House {
-  door: boolean = false;
-  key: Key;
-  tenants: Person[] = [];
+  protected door: boolean = false;
+  protected key: Key;
+  private tenants: Person[] = [];
 
-  comeIn(person: Person) {
+  constructor(key: Key) {
+    this.key = key;
+  }
+
+  comeIn(person: Person): void {
     if (this.door) {
       this.tenants.push(person);
     }
   }
 
-  abstract openDoor(key: Key): boolean;
+  abstract openDoor(key: Key): void;
 }
 
 class MyHouse extends House {
-  key: Key;
-  constructor(key: Key) {
-    super();
-    this.key = key;
-  }
-
-  openDoor(key: Key): boolean {
-    if (this.key === key) {
-      return (this.door = true);
+  openDoor(key: Key): void {
+    if (this.key.getSignature() === key.getSignature()) {
+      this.door = true;
     }
-    return false;
   }
 }
 
